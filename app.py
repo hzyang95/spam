@@ -126,11 +126,6 @@ def home():
             qeh = 0
         if not (tth or bjh or qeh):
             oth = 1
-        # if tth or bjh or qeh:
-        #     oth = 0
-        # qeh = request.form['qeh']
-        # tth = request.form['tth']
-        # oth = request.form['oth']
 
         _num = int(request.form['_num'])
 

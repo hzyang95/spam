@@ -120,9 +120,7 @@
 
                 {% if file[1] %}
                     <div class="text">
-                    {% for items in file[1] %}
-        {                <span class="spann" onclick="showurl('{{ items[1] }}')">{{ items[0] }}</span>
-                    {% endfor %}
+                    {{ file[1] }}
                     </div>
                 {% else %}
                         <span class="spann" style="margin: 20px;" >指定范围暂无可用内容，请扩大范围</span>
@@ -347,19 +345,6 @@
         text-indent: 0;
         background: #c6dafc;
     }
-    {#显示链接#}
-    .hid{
-        text-indent: 0;
-        text-align: center;
-        position: relative;
-        max-height: 250px; /* 设置最大高度，当高度达到此值时出现滚动条 */
-        background-color: #c5d9e0;
-        display: none; /* 默认隐藏 */
-        width: 400px;
-        z-index: 10;
-        overflow: auto;  /* 自动添加滚动条 */
-        box-shadow:0px 0px 10px #000; /* 外阴影 */
-    }
 
     {#默认占位文字内容#}
     .defalut{
@@ -535,20 +520,7 @@
                 $("#btnSave").removeAttr("disabled");
         });
     }
-    var wBox=$("#wbox1").wBox({
-        title: "来源",
 
-        html:'\
-        <div id="emoBox" style="text-align: center; width:200px;word-wrap:break-word;">\
-        <a href="http://www.baidu.com" id="uurl" target="_blank" >123</a>\
-        </div>'
-    });
-    function showurl(url) {
-
-        wBox.showBox();
-        document.getElementById("uurl").innerHTML=url;
-        document.getElementById("uurl").setAttribute("href",url);
-    }
     var update_mychart = function (res) {
     //res是json格式的response对象
 

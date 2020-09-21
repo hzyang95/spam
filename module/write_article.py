@@ -12,7 +12,7 @@ from module.retrieval import sem_retri, doc_retri
 
 # paragraph retrieval + summary
 from module.stance import stance_pas_
-
+from module.translate import write_article
 
 def get_survey(topic, topic_sent, postdate, sentnum, webcrawler, sites=[]):
     """
@@ -255,7 +255,13 @@ def get_doc(key_words_to_crawl, webcrawler, postdate, sites=[]):
 
 def post_process(results, topic, topic_sent):
     print(topic_sent)
-    content = [[topic_sent[i], item] for i, item in enumerate(results)]
+    content = []
+    for i, item in enumerate(results):
+        clean_text = ''.join([ii[0] for ii in item])
+        # print(clean_text)
+        mid_text = write_article(clean_text,2)
+        aft_trans = write_article(mid_text,1)
+        content.append([topic_sent[i], aft_trans])
     article = content
     raw = ""
     # print(topic)
@@ -264,7 +270,7 @@ def post_process(results, topic, topic_sent):
 
     for i in content:
         raw += i[0] + '\n'
-        raw += '\t' + ''.join([ii[0] for ii in i[1]]) + '\n'
+        raw += '\t' + i[1] + '\n'
 
     return article, raw
 
@@ -279,7 +285,7 @@ def save_to_file(sent_aft_retri, is_summary):
         #     web_data_path = os.path.join('./web_data', query + '.json')
         assert len(sents) == len(urls)
         dic = {}
-        sent_temp=[]
+        sent_temp = []
         for ind in range(len(sents)):
             sent_temp.append(sents[ind])
             dic[str(ind)] = [sents[ind], urls[ind]]
