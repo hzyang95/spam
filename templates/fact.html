@@ -8,9 +8,6 @@
 {% block page_content %}
 
 
-{#<a href="http://ir.hit.edu.cn/" target="_blank">#}
-{#<img src="{{ url_for('static', filename='scir(已去底)_1.png')}}" id = 'icon' align="right" width="150" hspace="5" vspace="5" >#}
-{#</a>#}
 
 
 <div class="page-header">
@@ -23,8 +20,8 @@
 <div id="delete" onclick="deleteText()"></div>
 <div class="deletenotice" >清空内容</div>
 
-<form action="http://localhost:5000/" method="post" class="form" role="form">
-{#<form action="http://39.98.138.178:46000/" method="post" class="form" role="form">#}
+<!-- <form action="http://localhost:5000/" method="post" class="form" role="form"> -->
+<form action="http://39.98.138.178:46000/" method="post" class="form" role="form">
     <div class="form-group "><label class="control-label" for="choice"></label>
         <select class="form-control" id="choice" name="choice">
             <option selected="" value="0">---选择样例---</option>
@@ -120,7 +117,7 @@
 
                 {% if file[1] %}
                     <div class="text">
-                    {{ file[1] }}
+                    <span class="spann" id="{{ file[1][1] }}" onclick="showurl('{{ file[1][0] }}','{{ file[1][1] }}')" style=" display: initial; font-size: 20px" >{{ file[1][1] }}</span>
                     </div>
                 {% else %}
                         <span class="spann" style="margin: 20px;" >指定范围暂无可用内容，请扩大范围</span>
@@ -346,6 +343,20 @@
         background: #c6dafc;
     }
 
+        /*{#显示链接#}*/
+    .hid{
+        text-indent: 0;
+        text-align: center;
+        position: relative;
+        max-height: 250px; /* 设置最大高度，当高度达到此值时出现滚动条 */
+        background-color: #c5d9e0;
+        display: none; /* 默认隐藏 */
+        width: 400px;
+        z-index: 10;
+        overflow: auto;  /* 自动添加滚动条 */
+        box-shadow:0px 0px 10px #000; /* 外阴影 */
+    }
+
     {#默认占位文字内容#}
     .defalut{
         padding: 5px;
@@ -484,7 +495,6 @@
 <script type="text/javascript">
 
     function setcolor(id, color) {
-        {#console.log(id);#}
         if (color==='0'){
             document.getElementById(id).style.color='rgba(232,27,22,0.74)'
         }
@@ -521,6 +531,25 @@
         });
     }
 
+    var wBox=$("#wbox1").wBox({
+        title: "改写",
+
+        html:'\
+        <div id="emoBox" style="text-align: center; width:500px;word-wrap:break-word;">\
+        <div class="title2">原文</div>\
+        <div class="text" id="url1"></div>\
+        <div class="title2">改写</div>\
+        <div class="text" id="url2"></div>\
+        </div>'
+    });
+    function showurl(url1,url2) {
+
+        wBox.showBox();
+        document.getElementById("url1").innerHTML=url1;
+        document.getElementById("url2").innerHTML=url2;
+        {#document.getElementById("uurl").setAttribute("href",url);#}
+    }
+
     var update_mychart = function (res) {
     //res是json格式的response对象
 
@@ -539,7 +568,7 @@
         $('#submit').click(
             function()
             {
-                countDown(40,'正在生成');
+                countDown(60,'正在生成');
             })
     });
     document.getElementById('choice').onchange = function(){

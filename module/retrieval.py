@@ -12,24 +12,27 @@ from module.tools import get_res_from_sever
 
 def doc_retrieval_tfidf(doc_list, query):
     # print(doc_list)
-    text = [' '.join(jieba.cut(' '.join(item))) for item in doc_list]
-    ques = [' '.join(jieba.cut(query))]
-    tokens = text + ques
-    # print(tokens)
-    # print(example)
-    tfidf = TfidfVectorizer()
-    tfidf.fit(tokens)
-    x = tfidf.transform(text).toarray()
-    y = tfidf.transform(ques).toarray()
-    # print(x.shape)
-    # print('='*20)
-    # print(y.shape)
-    output = np.matmul(x, y.transpose())
-    # print(res)
-    # print(np.argmax(res))
-    tops = torch.topk(torch.tensor(output), min(len(text), max(6, len(text) * 2 // 3)), dim=0)
-    # print(tops[1])
-    return tops[1]
+    try:
+        text = [' '.join(jieba.cut(' '.join(item))) for item in doc_list]
+        ques = [' '.join(jieba.cut(query))]
+        tokens = text + ques
+        # print(tokens)
+        # print(example)
+        tfidf = TfidfVectorizer()
+        tfidf.fit(tokens)
+        x = tfidf.transform(text).toarray()
+        y = tfidf.transform(ques).toarray()
+        # print(x.shape)
+        # print('='*20)
+        # print(y.shape)
+        output = np.matmul(x, y.transpose())
+        # print(res)
+        # print(np.argmax(res))
+        tops = torch.topk(torch.tensor(output), min(len(text), max(6, len(text) * 2 // 3)), dim=0)
+        # print(tops[1])
+        return tops[1]
+    except:
+        return [i for i in range(len(doc_list))]
 
 
 def doc_retrieval_keywords(doc_list, query):

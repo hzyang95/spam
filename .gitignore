@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/demo_uwsgi.ini
+/demo_uwsgi.pid
+/static
+/survey_demo_app.py

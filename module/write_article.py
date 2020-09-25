@@ -14,6 +14,7 @@ from module.retrieval import sem_retri, doc_retri
 from module.stance import stance_pas_
 from module.translate import write_article
 
+
 def get_survey(topic, topic_sent, postdate, sentnum, webcrawler, sites=[]):
     """
     :param sentnum:
@@ -257,11 +258,19 @@ def post_process(results, topic, topic_sent):
     print(topic_sent)
     content = []
     for i, item in enumerate(results):
-        clean_text = ''.join([ii[0] for ii in item])
+        # aft_trans = []
+        # for ii in item:
+        #     ori=ii[0]
+        #     mid=write_article(ori, 2)
+        #     aft=write_article(mid, 1)
+        #     aft_trans.append(aft)
+        # clean_text = ''.join([ii[0] for ii in item])
+        # aft_trans=''.join(aft_trans)
         # print(clean_text)
-        mid_text = write_article(clean_text,2)
-        aft_trans = write_article(mid_text,1)
-        content.append([topic_sent[i], aft_trans])
+        clean_text = ''.join([ii[0] for ii in item])
+        mid_text = write_article(clean_text, 2)
+        aft_trans = write_article(mid_text, 1)
+        content.append([topic_sent[i], [clean_text, aft_trans]])
     article = content
     raw = ""
     # print(topic)
@@ -270,7 +279,7 @@ def post_process(results, topic, topic_sent):
 
     for i in content:
         raw += i[0] + '\n'
-        raw += '\t' + i[1] + '\n'
+        raw += '\t' + i[1][1] + '\n'
 
     return article, raw
 
