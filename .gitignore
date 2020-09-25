@@ -4,3 +4,5 @@
 /demo_uwsgi.pid
 /static
 /survey_demo_app.py
+/web_data
+/log
